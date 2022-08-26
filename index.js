@@ -1,60 +1,122 @@
 //Api calling in Javascript
-//=>Api Calling in Js XMLHttpRequest
-//events are
-/**
- onload,onerror
- property=>response,responseText,responseType,responseURL,
- status,statusText
- //function=>open(),send(),setRequestHeader()
- */
+//=>Api Calling in  Fetch method
+//4 ways to call api-XMLHttpRequest,fetch,axios,jquery
 
-const makeDataRequest=(method,URL,dataRecieve,up)=>{
-    return new Promise((resolve,reject)=>{
-    const xhr=new XMLHttpRequest();
-    xhr.open(method,URL);
-    xhr.setRequestHeader('Content-Type','application/json')
-    xhr.onload=()=>{
-      let data=xhr.response;
-      console.log(xhr.status);
-      console.log(JSON.parse(data));  
+//fetch() has replaced XMLhttpRequest
+//fetch()-global method for asking Http Request
+//2 ways to call -then,async,await
+
+//+ fetch() is easy to use compare to XMLHttpRequest
+//+fetch () returns a promise
+//- returned promise can only network error
+//-does not support all the older browser
+console.clear();
+console.log(window);
+fetch('https://jsonplaceholder.typicode.com/posts',{
+ method:'POST',
+ headers: {
+    'Content-type': 'application/json; charset=UTF-8',
+  },
+ body:JSON.stringify({
+    title:"foo",
+    body:"bar",
+    userId:1,
+ })
+})
+
+.then((response)=>{
+    if(!response.ok){
+        const mgs=`Error :${response.status}`;
+        throw new Error(mgs);
+    }else{
+        return response.json();
     }
-    xhr.onerror=()=>{
-      console.log("Error is here");  
+})
+
+.then((response)=>{
+    console.log(response)
+}).catch((err)=>{
+    console.log(err);
+})
+
+
+//Update Data
+fetch('https://jsonplaceholder.typicode.com/posts/1',{
+ method:'PUT',
+ headers: {
+    'Content-type': 'application/json; charset=UTF-8',
+  },
+ body:JSON.stringify({
+    title:"Software",
+    body:"Rifat",
+    userId:2,
+ })
+})
+
+.then((response)=>{
+    if(!response.ok){
+        const mgs=`Error :${response.status}`;
+        throw new Error(mgs);
+    }else{
+        return response.json();
     }
-    xhr.send(JSON.stringify(dataRecieve));
-     })
-   
-}
-//get data
-const getData=()=>{
-    makeDataRequest('GET','https://jsonplaceholder.typicode.com/posts')
-    .then((response)=>{
-        console.log(response);
-    });
-}
-getData();
+})
 
-//send data
-const sendData=()=>{
-    makeDataRequest('POST','https://jsonplaceholder.typicode.com/posts',{
-         title:"foo",
-         body:"bar",
-         userId:1,
-    })
-}
-sendData();
+.then((response)=>{
+    console.log(response)
+}).catch((err)=>{
+    console.log(err);
+})
 
+//patch
+fetch('https://jsonplaceholder.typicode.com/posts/1',{
+ method:'PATCH',
+ headers: {
+    'Content-type': 'application/json; charset=UTF-8',
+  },
+ body:JSON.stringify({
+   title:"I am a Full stack web appliaction Developer",
+ })
+})
 
-// UpdateData
-const updateData=()=>{
-    makeDataRequest('PUT','https://jsonplaceholder.typicode.com/posts/1',{
-       title:"This is changed",
-    })
-}
-updateData()
+.then((response)=>{
+    if(!response.ok){
+        const mgs=`Error :${response.status}`;
+        throw new Error(mgs);
+    }else{
+        return response.json();
+    }
+})
 
-// delete method
-const deleteData=()=>{
-    makeDataRequest('DELETE','https://jsonplaceholder.typicode.com/posts/1');
-}
-deleteData();
+.then((response)=>{
+    console.log(response)
+}).catch((err)=>{
+    console.log(err);
+})
+
+//delete
+
+fetch('https://jsonplaceholder.typicode.com/posts/2',{
+ method:'DELETE',
+//  headers: {
+//     'Content-type': 'application/json; charset=UTF-8',
+//   },
+//  body:JSON.stringify({
+//    title:"I am a Full stack web appliaction Developer",
+//  })
+})
+
+.then((response)=>{
+    if(!response.ok){
+        const mgs=`Error :${response.status}`;
+        throw new Error(mgs);
+    }else{
+        return response.json();
+    }
+})
+
+.then((response)=>{
+    console.log(response)
+}).catch((err)=>{
+    console.log(err);
+})
